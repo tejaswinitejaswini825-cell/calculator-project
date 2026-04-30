@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Calculator</title>
+
+<style>
+body {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg,pink,powderblue);
+  font-family: Arial, sans-serif;
+}
+
+/* Calculator Box */
+.calculator {
+  background:grey;
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,10.3);
+  animation: fadeIn 0.6s ease;
+}
+
+/* Display */
+#display {
+  width: 95%;
+  height: 60px;
+  margin-bottom: 15px;
+  border-radius: 10px;
+  border: none;
+  font-size: 24px;
+  text-align: leftimportant;
+  padding: 10px;
+}
+
+/* Buttons Grid */
+.buttons {
+  display: grid;
+  grid-template-columns: repeat(4, 70px);
+  gap: 10px;
+}
+
+/* Buttons */
+button {
+  height: 60px;
+  border: none;
+  border-radius: 12px;
+  font-size: 18px;
+  background:powderblue;
+  color: black;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+/* Hover */
+button:hover {
+  transform: scale(1.05);
+}
+
+/* Click */
+button:active {
+  transform: scale(0.9);
+}
+
+/* Special Buttons */
+.operator {
+  background:pink;
+}
+
+.equal {
+  background:white;
+}
+
+.clear {
+  background:white;
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+</style>
+
+</head>
+<body>
+
+<div class="calculator">
+  <input type="text" id="display" disabled>
+
+  <div class="buttons">
+    <button class="clear">C</button>
+    <button class="operator">/</button>
+    <button class="operator">*</button>
+    <button onclick="deleteLast()">⌫</button>
+
+    <button>7</button>
+    <button>8</button>
+    <button>9</button>
+    <button class="operator">-</button>
+
+    <button>4</button>
+    <button>5</button>
+    <button>6</button>
+    <button class="operator">+</button>
+
+    <button>1</button>
+    <button>2</button>
+    <button>3</button>
+    <button class="equal">=</button>
+
+    <button>0</button>
+    <button>.</button>
+  </div>
+</div>
+
+<script>
+let display = document.getElementById("display");
+
+/* Sound */
+const clickSound = new Audio("click.mp3");
+
+/* Add click sound to all buttons */
+document.querySelectorAll("button").forEach(button => {
+  button.addEventListener("click", () => {
+    clickSound.currentTime = 0;
+    clickSound.play();
+  });
+});
+
+/* Button functionality */
+document.querySelectorAll("button").forEach(btn => {
+  btn.addEventListener("click", function() {
+    let value = this.innerText;
+
+    if (value === "C") {
+      display.value = "";
+    } 
+    else if (value === "=") {
+      try {
+        display.value = eval(display.value);
+      } catch {
+        display.value = "Error";
+      }
+    } 
+    else if (value === "⌫") {
+      display.value = display.value.slice(0, -1);
+    } 
+    else {
+      display.value += value;
+    }
+  });
+});
+</script>
+
+</body>
+</html>
